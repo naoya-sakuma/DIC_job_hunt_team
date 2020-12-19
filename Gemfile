@@ -33,6 +33,8 @@ gem 'devise'
 
 group :development, :test do
   gem 'awesome_print'
+  gem 'better_errors'
+  gem 'binding_of_caller'
   gem 'bullet'
   gem 'byebug', platform: :mri
   gem 'database_cleaner'
