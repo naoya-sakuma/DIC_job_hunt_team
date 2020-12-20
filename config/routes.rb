@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   root 'statics#top'
   get :dashboard, to: 'teams#dashboard'
+  post '/teams/:team_id/assigns/:id', to: 'teams#give_authority'
 
   devise_for :users, controllers: {
     sessions: 'users/sessions',
@@ -8,7 +9,7 @@ Rails.application.routes.draw do
     passwords: 'users/passwords'
   }
   resource :user
-  
+
   resources :teams do
     resources :assigns, only: %w(create destroy)
     resources :agendas, shallow: true do

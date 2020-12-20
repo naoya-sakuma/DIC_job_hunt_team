@@ -47,6 +47,15 @@ class TeamsController < ApplicationController
     @team = current_user.keep_team_id ? Team.find(current_user.keep_team_id) : current_user.teams.first
   end
 
+  def give_authority
+    @new_leader = Assign.find(params[:id])
+    @team = Team.find(@new_leader.team_id)
+    @team.owner_id = @new_leader.user_id
+    @team.save
+    AssignMailer.change_leader_mail(@new_leader.user.email, @team.name).deliver
+    redirect_to team_url(params[:team_id])
+  end
+
   private
 
   def set_team
