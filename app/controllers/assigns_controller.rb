@@ -15,10 +15,16 @@ class AssignsController < ApplicationController
   end
 
   def destroy
-    assign = Assign.find(params[:id])
-    destroy_message = assign_destroy(assign, assign.user)
+    @assign = Assign.find(params[:id])
+    @team = Team.find(@assign.team_id)
+    if @team.owner_id == current_user.id || current_user.id == @assign.user_id
+      assign = Assign.find(params[:id])
+      destroy_message = assign_destroy(assign, assign.user)
 
-    redirect_to team_url(params[:team_id]), notice: destroy_message
+      redirect_to team_url(params[:team_id]), notice: destroy_message
+    else
+      redirect_to dashboard_url, notice: '編集権限がありません'
+    end
   end
 
   private
