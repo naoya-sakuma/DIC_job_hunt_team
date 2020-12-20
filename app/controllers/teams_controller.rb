@@ -52,6 +52,7 @@ class TeamsController < ApplicationController
     @team = Team.find(@new_leader.team_id)
     @team.owner_id = @new_leader.user_id
     @team.save
+    AssignMailer.change_leader_mail(@new_leader.user.email, @team.name).deliver
     redirect_to team_url(params[:team_id])
   end
 
